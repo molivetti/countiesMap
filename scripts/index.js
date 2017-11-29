@@ -260,6 +260,11 @@
 				eval('var ttt =' +json);
 				createCountyPanel( idx, countyName, stateAbbr, countyId, eval(ttt.TotalEnrollment), ttt.TotalUninsured );
 				return false;
+			},
+			error: function(){
+				var ttt = {"UserInput":"5648","TotalUninsured":"24812","TotalEnrollment":"[28123,29381,29460,29641,29683,29786]"};
+				createCountyPanel( idx, countyName, stateAbbr, countyId, eval(ttt.TotalEnrollment), ttt.TotalUninsured );
+				return false;
 			}
 		});
 	}

@@ -30,11 +30,11 @@
 		</CFSaveContent>
 
 		<CFSet returnStruct = {
-			ParentOrgs	:	AllParentOrgs,
-			PlanTypes	:	AllPlanTypes,
-			Orgs		:	AllOrgNames,
-			Counties	:	AllCounties,
-			script		:	ScriptTag
+			ParentOrgs: AllParentOrgs,
+			PlanTypes: AllPlanTypes,
+			Orgs: AllOrgNames,
+			Counties: AllCounties,
+			script: ScriptTag
 		}>
 
 
@@ -42,18 +42,51 @@
 
 			<CFSaveContent variable="ScriptTag">
 			<cfoutput>
-			//ERROR during data retrieval... : #cfcatch.Type#
-			// #cfcatch.Message#
+				//ERROR during data retrieval... : #cfcatch.Type#
+				// #cfcatch.Message#
+				<script type="text/javascript">
+					var AllOLNames = ["OLName1", "OLName2", "OLName3"];
+					var AllParentOrgNames = ["ParentOrg1", "ParentOrg2", "ParentOrg3"];
+					var AllCountiesArr = [];
+					$.ajax(
+						{
+							type	:	'GET',
+							url		:	'data/GetMapData.cfm', 
+							async	: 	false,
+							success	: 	function(data) { 
+											eval(data);
+											var thisCounty, thisState;
+											for (var i=0;i<rawData.length;i++) {
+												thisPk = rawData[i][0];
+												thisCounty = rawData[i][1];
+												thisState = rawData[i][2];
+											
+												AllCountiesArr[thisPk] = [thisCounty,thisState];
+											}
+										}
+						}
+					);
+				</script>
 			</cfoutput>
 			</CFSaveContent>
 
+			<cfset AllParentOrgs = queryNew("pk,ParentOrganization", "integer,varchar")>
+			<cfset queryAddRow(AllParentOrgs, 3)>
+			<cfset querySetCell(AllParentOrgs, "pk", 1, 1)>
+			<cfset querySetCell(AllParentOrgs, "ParentOrganization", "ParentOrganization1", 1)>
+			<cfset querySetCell(AllParentOrgs, "pk", 2, 2)>
+			<cfset querySetCell(AllParentOrgs, "ParentOrganization", "ParentOrganization2", 2)>
+			<cfset querySetCell(AllParentOrgs, "pk", 3, 3)>
+			<cfset querySetCell(AllParentOrgs, "ParentOrganization", "ParentOrganization3", 3)>
+
+
 			<CFSet returnStruct = {
-			ParentOrgs	:	QueryNew("pk"),
-			PlanTypes	:	QueryNew("pk"),
-			Orgs		:	QueryNew("pk"),
-			Counties	:	QueryNew("pk"),
-			script		:	ScriptTag
-		}>
+				ParentOrgs: AllParentOrgs,
+				PlanTypes: QueryNew("pk"),
+				Orgs: QueryNew("pk"),
+				Counties: QueryNew("pk"),
+				script: ScriptTag
+			}>
 
 			<!--- <cfdump var="#cfcatch#">  --->
 		</CFCatch>

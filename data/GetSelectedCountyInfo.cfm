@@ -39,6 +39,7 @@
 		<cfif variables.isDebug eq 1>
 			<CFDump var="#cfcatch#">
 		</cfif>
+		<cfoutput>{"UserInput":"5648","TotalUninsured":"24812","TotalEnrollment":"[28123,29381,29460,29641,29683,29786]"}</cfoutput>
 	</CFCatch>
 
 </cftry>
